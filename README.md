@@ -31,7 +31,7 @@ This repository contains code and resources to build binary or ternary orthogona
 
   [//]: # "<!-- Link to the documentation -->"
   [//]: # "%<br>"
-  [//]: # "<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><strong>Explore Libname docs »</strong></a>"
+  [//]: # "<a href=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"><strong>Explore Libname docs »</strong></a>"
   [//]: # "<br>"
 
 </p>
@@ -57,7 +57,9 @@ This repository contains code and resources to build binary or ternary orthogona
 
 ## 🚀 Overview
 
-This code require uses the pytorch framework, and the [deel-torchlip](https://github.com/deel-ai/deel-torchlip). [Other dependencies](#installation)
+This code require uses the pytorch framework, and the [deel-torchlip](https://github.com/deel-ai/deel-torchlip). 
+
+[Other dependencies](#-Install-dependencies) are described in the next section.
 
 ### Installation
 
@@ -181,7 +183,7 @@ If you use code as part of your workflow in a scientific publication, please con
 ```
 @inproceedings{
 foucault2025hadamrnn,
-title={{HADAMRNN}: {BINARY} {AND} {SPARSE} {TERNARY} {ORTHOGONAL} {RNNS}},
+title={{HadamRNN}: {B}inary and {S}parse {T}ernary {O}rthogonal {RNN}s},
 author={Armand Foucault and Francois Malgouyres and Franck Mamalet},
 booktitle={The Thirteenth International Conference on Learning Representations},
 year={2025},
