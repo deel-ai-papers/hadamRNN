@@ -27,7 +27,7 @@ This repository contains code and resources to build binary or ternary orthogona
 
 <!-- Short description of your library -->
 <p align="center">
-  <b>HadaRNN</b> is a Python toolkit dedicated to binary and ternary and orthogonal Recurrent Neural Networks.
+  <b>HadamRNN</b> is a Python toolkit dedicated to binary and ternary and orthogonal Recurrent Neural Networks.
 
   [//]: # "<!-- Link to the documentation -->"
   [//]: # "%<br>"
@@ -81,6 +81,7 @@ This code require uses the pytorch framework, and the [deel-torchlip](https://gi
 
    ```bash
    pip install -r requirements.txt
+   pip install deel-torchlip
    ```
   See also config/<expe>/Readme.md files for additional dependencies for expes
 

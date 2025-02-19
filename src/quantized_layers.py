@@ -37,7 +37,7 @@ from torch.nn.utils import parametrize
 from torch.nn.modules import Module
 import math
 
-from utils import MH_permutation, make_pow2_hadamard_matrix
+from utils import make_pow2_hadamard_matrix
 
 from deel.torchlip import SpectralLinear #, SpectralLinearNoBjorck
 

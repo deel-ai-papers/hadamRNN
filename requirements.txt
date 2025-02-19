@@ -3,3 +3,5 @@ torch
 torchvision
 pyyaml
 simple-parsing
+tqdm
+torchmetrics
