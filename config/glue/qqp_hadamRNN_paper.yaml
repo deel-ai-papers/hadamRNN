@@ -1,0 +1,46 @@
+PROJECT: "hadamRNN_quantized"
+DATASET:
+  NAME: GLUE
+  TASK: 'qqp'
+MODEL:
+  ACTIVATION: $torch.nn.ReLU
+  ACTIVATION_CONFIG: null
+  ACTIVATION_FINAL: null
+  ACTIVATION_FINAL_CONFIG: null
+  BASIC_BLOCK: 7 #'full'
+  BIAS: True
+  BIAS_FINAL: True
+  GIVENS: 2
+  HIDDEN_SIZE: 512
+  INPUT_SIZE: 256
+  MULTIPARAMETERS: False
+  MANYTOMANY: False #with mean pooling  
+  NAME: BinadamSSMwithEmbeddings 
+  NUM_BITS: 4
+  OUTPUT_SIZE: 1
+  VOCAB_SIZE: 30522 #bert-base-uncased tokenizer
+  SEED: 8
+  SINGLE_LAYER: True
+  QOUTPUT: True
+TRAIN:
+  BATCH_SIZE: 20
+  DISPLAY_EPOCH: false
+  DISPLAY_EVERY: null
+  GET_GRADIENTS: false
+  LAMBDA_ORTH: 0.
+  LOSS_FN: $torch.nn.BCEWithLogitsLoss
+  LOSS_CONFIG: null
+  METRICS: {'accuracy': $torchmetrics.classification.BinaryAccuracy}
+  METRICS_CONFIG: null
+
+  N_EPOCHS: 50
+  OPTIMIZER:  $torch.optim.Adam
+  OPTIMIZER_CONFIG:
+    lr: 0.0005
+  SCHEDULER: $torch.optim.lr_scheduler.StepLR
+  SCHEDULER_CONFIG:
+    gamma: 0.99
+    step_size: 1
+  TORCH_DEVICE: cuda:0
+  TRACK_FLIPS: True
+  USE_WANDB: False

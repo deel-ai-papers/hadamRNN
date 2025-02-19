@@ -1,0 +1,47 @@
+PROJECT: "hadamRNN_quantized"
+DATASET:
+  NAME: pMNIST
+  TRAIN_SIZE: 50000
+  VAL_SIZE: 10000
+MODEL:
+  ACTIVATION: $torch.nn.ReLU
+  ACTIVATION_CONFIG: null
+  ACTIVATION_FINAL: null
+  ACTIVATION_FINAL_CONFIG: null
+  BASIC_BLOCK: 'full'
+  BIAS: True
+  BIAS_FINAL: True
+  GIVENS: 2
+  HIDDEN_SIZE: 512
+  INPUT_SIZE: 1
+  MULTIPARAMETERS: False
+  MANYTOMANY: false  
+  NAME: BinadamSSM 
+  NUM_BITS: 4
+  OUTPUT_SIZE: 10
+  SEED: 8 
+  SINGLE_LAYER: True
+  QOUTPUT: True
+TRAIN:
+  BATCH_SIZE: 100
+  DISPLAY_EPOCH: false
+  DISPLAY_EVERY: null
+  GET_GRADIENTS: false
+  LAMBDA_ORTH: 0.
+  LOSS_FN: $torch.nn.CrossEntropyLoss
+  LOSS_CONFIG: null
+  METRICS: {'accuracy': $torchmetrics.Accuracy}
+  METRICS_CONFIG:
+    task: multiclass
+    num_classes: 10
+  N_EPOCHS: 100
+  OPTIMIZER:  $torch.optim.Adam
+  OPTIMIZER_CONFIG:
+    lr: 0.001
+  SCHEDULER: $torch.optim.lr_scheduler.StepLR
+  SCHEDULER_CONFIG:
+    gamma: 0.98
+    step_size: 1
+  TORCH_DEVICE: cuda:0
+  TRACK_FLIPS: True
+  USE_WANDB: False
