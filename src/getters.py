@@ -6,7 +6,7 @@ from typing import Any, Callable
 from models import *
 from extra_layers import *
 from torch.nn import LSTM
-from dataset_tools import add_task, copy_task, permuted_mnist, penn_tree_bank, sequential_mnist, imdb, glue
+from dataset_tools import copy_task, permuted_mnist, sequential_mnist, imdb, glue
 
 
 def get_model(model_name):
