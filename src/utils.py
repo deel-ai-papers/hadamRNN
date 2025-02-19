@@ -43,6 +43,8 @@ from torchmetrics import Metric
 
 
 
+PATH = os.getcwd()
+
 def is_quantized(kernel):
     return hasattr(kernel, "quantized")
 
