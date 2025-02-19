@@ -31,10 +31,8 @@ def get_model(model_name):
 def get_dataset(dataset_name):
     name = dataset_name.lower()
     datasets = {
-        'addsequence': add_task.AddSequence,
         'copymemory': copy_task.CopyMemory,
         'pmnist': permuted_mnist.pMNIST,
-        'penntreebank': penn_tree_bank.PennTreeBank,
         'smnist': sequential_mnist.sMNIST,
         'imdb': imdb.IMDB,
         'glue': glue.Glue,
