@@ -1,4 +1,4 @@
-# HadaRNN binary and ternary and orthogonal Recurrent Neural Networks
+# HadamRNN binary and ternary and orthogonal Recurrent Neural Networks
 
 Welcome to the repository for our submission **HadamRNN: Binary and Sparse Ternary Orthogonal RNNs**, accepted at the conference [ICLR'25](https://iclr.cc/).
 
