@@ -29,8 +29,14 @@ import numpy as np
 import csv
 import os
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
-from datasets import load_dataset, load_metric
+try :
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
+    from datasets import load_dataset, load_metric
+except:
+    print("Warning Glue requires transformers")
+    AutoTokenizer = None
+    AutoModelForSequenceClassification = None
+    load_dataset = None
 import torch
 import torch.nn.functional as F
 from torch.utils.data import TensorDataset
