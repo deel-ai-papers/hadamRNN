@@ -2,7 +2,7 @@ import torch
 import torch.nn.utils.parametrize as P
 from torch import nn
 from torch.nn.utils import parametrize
-from quantized_layers import QLinear, _Quantize, quantize
+from quantized_layers import QLinear, _Quantize, quantize, QSpectralLinear, QSpectralLinearNoBjorck
 import numpy as np
 
 class _Quantize_stats(_Quantize):
@@ -93,6 +93,16 @@ class QSSM(nn.Module):
 		if self.activation_final is not None: output = self.activation_final(output)
 		return output
 
+class SpectralQSSM(QSSM):
+
+	def __init__(self, input_size, hidden_size, output_size, activation=None, activation_final=None, bias=True, bias_final=True, num_bits=0, manytomany=False, use_bjorck=False, seed=None, **kwargs):
+		#super(BinactivadamRNN, self).__init__(self, input_size, hidden_size, output_size, activation=activation, activation_final=activation_final, bias=bias, bias_final=bias_final, num_bits=num_bits, manytomany=manytomany, basic_block=basic_block, **kwargs)
+		super(SpectralQSSM, self).__init__(input_size, hidden_size, output_size, activation, activation_final, bias, bias_final, num_bits, manytomany, seed, **kwargs)
+		if use_bjorck:
+			self.recurrent_layer = QSpectralLinear(hidden_size, hidden_size, bias, num_bits)
+		else:
+			self.recurrent_layer = QSpectralLinearNoBjorck(hidden_size, hidden_size, bias, num_bits)
+	
 
 class QSSMwithEmbeddings(QSSM):
 	

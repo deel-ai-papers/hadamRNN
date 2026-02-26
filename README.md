@@ -102,7 +102,7 @@ options:
 #### Example Command
 
 ```bash
-python src/train.py --config config/pmnist/pmnist_hadamRNN_paper.yaml
+python src/launch_train.py --config config/pmnist/pmnist_hadamRNN_paper.yaml
 ```
 
 This command trains a model using the configuration specified in `config/pmnist/pmnist_hadamRNN_paper.yaml`.
