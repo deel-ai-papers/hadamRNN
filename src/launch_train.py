@@ -103,11 +103,19 @@ def train_local(config = None, use_wandb = False):
     print(model)
     dataset = make_dataset(**config.dataset)
 
+    for layer in ['input_layer', 'recurrent_layer', 'output_layer']:
+        if hasattr(model, layer):
+            print(f"{layer} weight unique values : {len(torch.unique(getattr(model, layer).weight))}")
+            
     config.instantiate_optimizer(params=model.parameters())
     config.instantiate_scheduler()
 
     #train(model, dataset, use_wandb = use_wandb, tqdm_disable=True, **config.train)  #No tqdm for reducing logs on calmip
     train(model, dataset, use_tqdm=True, **config.train)
+
+    for layer in ['input_layer', 'recurrent_layer', 'output_layer']:
+        if hasattr(model, layer):
+            print(f"{layer} weight unique values : {len(torch.unique(getattr(model, layer).weight))}")
 
     if dataset.test_ds is not None:
         test_batch_size = dataset.te_size // 10
@@ -115,7 +123,7 @@ def train_local(config = None, use_wandb = False):
     else:
         test_batch_size = dataset.va_size // 10
         test_ds = dataset.val_ds
-    stat_test = evaluate(test_ds, test_batch_size, model, loss_fn=config.train['loss_fn'], metrics=config.train['metrics'], kind='test', torch_device=config.train['torch_device'])
+    stat_test = {} # skip no test on SST evaluate(test_ds, test_batch_size, model, loss_fn=config.train['loss_fn'], metrics=config.train['metrics'], kind='test', torch_device=config.train['torch_device'])
     
     if ARGS.save_network:
         if ARGS.save_name is not None:

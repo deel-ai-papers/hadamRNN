@@ -16,6 +16,8 @@ def get_model(model_name):
         'qrnn': QRNN,
         'qssm': QSSM,
         'qssmwithembeddings': QSSMwithEmbeddings,
+        'qornn': QORNN,
+        'qornnwithembeddings': QORNNwithEmbeddings,
         'binadamssmwithembeddings': BinadamSSMwithEmbeddings,
     }
     if name not in models:

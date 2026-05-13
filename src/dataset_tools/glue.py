@@ -31,7 +31,7 @@ import os
 
 try :
     from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
-    from datasets import load_dataset, load_metric
+    from datasets import load_dataset #, load_metric
 except:
     print("Warning Glue requires transformers")
     AutoTokenizer = None
@@ -63,6 +63,7 @@ class Glue(Dataset):
         
         # upload  tokenizer 
         model_checkpoint = "bert-base-uncased"  
+        assert AutoTokenizer is not None, "transformers library is required for glue dataset"
         self.tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
         self.embedding = None
         if use_embeddings:

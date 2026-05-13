@@ -92,7 +92,7 @@ To train a model, use the `train.py` script located in the `src/` directory.
 ```bash
 python src/train.py --help
 
-usage: train.py [-h] [--config CONFIG]
+usage: launch_train.py [-h] [--config CONFIG]
 
 options:
   -h, --help       Show this help message and exit.

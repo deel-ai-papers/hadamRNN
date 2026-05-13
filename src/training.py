@@ -43,7 +43,7 @@ from utils import is_quantized, make_pow2_hadamard_matrix
 
 
 def train(model, dataset, n_epochs, batch_size, loss_fn, optimizer, metrics=None, lambda_orth=0., scheduler=None, get_gradients=False, track_flips=False, display_every=None, display_epoch=False, use_wandb=False, torch_device=None, use_tqdm=True, compute_sv=True, alternate_gradients=False, **kwargs):
-    save_test_output= False
+    save_test_output= True
     if alternate_gradients: model.initialize_gradients()
     sampler = dataset.sampler if hasattr(dataset, 'sampler') else None
     shuffle = True if sampler is None else False

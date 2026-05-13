@@ -32,7 +32,7 @@ import numpy as np
 import layers
 import utils
 #from layers import LSTMCell
-from quantized_layers import QLinear, Binadamard, BinaryNorm #, projnetRecurrent, QSpectralLinear, QSpectralLinearNoBjorck
+from quantized_layers import QLinear, Binadamard, BinaryNorm, QSpectralLinear #, projnetRecurrent, QSpectralLinear, QSpectralLinearNoBjorck
 from deel.torchlip import SpectralLinear
 
 
@@ -67,6 +67,70 @@ class QRNN(nn.Module):
 		return output
 
 
+class QORNN(nn.Module):
+	def __init__(self, input_size, hidden_size, output_size, activation=None, activation_final=None, bias=True, bias_final=True, num_bits=0, manytomany=False, seed=None, qoutput = False, single_layer = False, linear_recurrent = True, **kwargs):
+		if seed: torch.manual_seed(seed)
+		super(QORNN, self).__init__()
+		activation_final = None
+		self.hidden_size = hidden_size
+		self.activation = activation
+		self.linear_recurrent = linear_recurrent # if true the recurrent layer is linear
+		self.activation_final = activation_final
+		self.manytomany = manytomany
+		self.input_layer = QLinear(input_size, hidden_size, bias=False, num_bits=num_bits)
+		self.recurrent_layer = QSpectralLinear(hidden_size, hidden_size, bias=bias, num_bits=num_bits)
+		assert single_layer, "not supported"
+		if qoutput:
+			self.output_layer = QLinear(hidden_size, output_size, bias=bias_final, num_bits=num_bits)
+		else:
+			self.output_layer = nn.Linear(hidden_size, output_size, bias=bias_final)
+		self.dropout = None
+
+	def default_hidden(self, input):
+		return input.new_zeros(input.size(0), self.hidden_size, requires_grad=False)
+
+	def forward(self, inputs):
+		with P.cached():
+			h1 = self.default_hidden(inputs)
+			outputs = []
+			for input in torch.unbind(inputs, dim=1):
+				h1 = self.recurrent_layer(h1) + self.input_layer(input)
+				if self.activation is not None: h1b = self.activation(h1)
+				if self.dropout is not None:
+					h1b = self.dropout(h1b)
+				if not self.linear_recurrent:
+					h1 = h1b
+				if self.manytomany:
+					outputs.append(self.output_layer(h1b))
+		if self.manytomany:
+			outputs = torch.stack(outputs,dim=1).view(-1,len(outputs),self.output_layer.out_features) 
+			return outputs 
+			#return torch.stack(outputs,dim=1).view(-1,self.output_layer.out_features)
+		
+		
+		output = self.output_layer(h1b)
+		if self.activation_final is not None: output = self.activation_final(output)
+		return output
+
+
+class QORNNwithEmbeddings(QORNN):
+	
+	def __init__(self, input_size, hidden_size, output_size, activation=None, activation_final=None, bias=True, bias_final=True, num_bits=0, manytomany=False, seed=None, qoutput = False, single_layer = False, vocab_size = 10000, **kwargs):
+		super(QORNNwithEmbeddings, self).__init__(input_size, hidden_size, output_size, activation, activation_final, bias, bias_final, num_bits, manytomany, seed, qoutput, single_layer, **kwargs)
+		self.embedding = True
+		self.word_embedding = nn.Embedding(vocab_size, input_size, padding_idx=0)
+		dropout = 0.5
+		self.dropout = None
+		if dropout > 0:
+			print("Warning add dropout on embeddings with value ", dropout)
+			self.dropout = nn.Dropout(dropout)
+		
+	def forward(self, inputs):
+		inputs = self.word_embedding(inputs)
+		if self.dropout is not None:
+			inputs = self.dropout(inputs)
+		return super().forward(inputs)
+	
 
 class BinadamSSM(nn.Module):
 	""" 1 or 2-layers binary hadamard SSM (linear recurrence) with relu activation in between
